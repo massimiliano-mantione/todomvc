@@ -15,11 +15,11 @@ var app = app || {};
 
 			if (this.props.completedCount > 0) {
 				clearButton = (
-					<button
+					<paper-button
 						id="clear-completed"
 						onClick={this.props.onClearCompleted}>
 						Clear completed
-					</button>
+					</paper-button>
 				);
 			}
 

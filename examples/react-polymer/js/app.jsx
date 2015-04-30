@@ -129,10 +129,10 @@ var app = app || {};
 			if (todos.length) {
 				main = (
 					<section id="main">
-						<input
+						<paper-checkbox
 							id="toggle-all"
-							type="checkbox"
 							onChange={this.toggleAll}
+							onClick={this.toggleAll}
 							checked={activeTodoCount === 0}
 						/>
 						<ul id="todo-list">
@@ -146,7 +146,7 @@ var app = app || {};
 				<div>
 					<header id="header">
 						<h1>todos</h1>
-						<input
+						<paper-input
 							ref="newField"
 							id="new-todo"
 							placeholder="What needs to be done?"

@@ -80,16 +80,18 @@ var app = app || {};
 					editing: this.props.editing
 				})}>
 					<div className="view">
-						<input
-							className="toggle"
-							type="checkbox"
+						<paper-checkbox
 							checked={this.props.todo.completed}
-							onChange={this.props.onToggle}
+							onClick={this.props.onToggle}
+							onChange={function(){console.log('onChange!!!');}}
+							onchange={function(){console.log('onchange!!!');}}
 						/>
 						<label onDoubleClick={this.handleEdit}>
 							{this.props.todo.title}
 						</label>
-						<button className="destroy" onClick={this.props.onDestroy} />
+						<paper-button onClick={this.props.onDestroy}>
+              <core-icon icon="clear"/>
+            </paper-button>
 					</div>
 					<input
 						ref="editField"
