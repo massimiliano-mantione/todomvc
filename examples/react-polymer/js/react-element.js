@@ -11,15 +11,15 @@ var ReactElement = (function () {
   var isPreMountHook = function isPreMountHook(field) {
     return field && field.mount;
   };
-
   var isPostMountHook = function isPostMountHook(field) {
     return field && field.mounted;
   };
-
+  var isUnmountHook = function isUnmountHook(field) {
+    return field && field.unmount;
+  };
   var isUpdateHook = function isUpdateHook(field) {
     return field && field.write;
   };
-
   var isConstractorHook = function isConstractorHook(field) {
     return field && field.construct;
   };
@@ -35,15 +35,43 @@ var ReactElement = (function () {
     var Node = React.createFactory(name);
     var keys = Object.keys(fields);
     var mountHooks = keys.filter(function (key) {
+
+      if (isPreMountHook(fields[key])) {
+        console.log(' *** element ' + name + ': isPreMountHook ' + key);
+      }
+
       return isPreMountHook(fields[key]);
     });
     var mountedHooks = keys.filter(function (key) {
+
+      if (isPostMountHook(fields[key])) {
+        console.log(' *** element ' + name + ': isPostMountHook ' + key);
+      }
+
       return isPostMountHook(fields[key]);
     });
+    var unmountHooks = keys.filter(function (key) {
+
+      if (isUnmountHook(fields[key])) {
+        console.log(' *** element ' + name + ': isUnmountHook ' + key);
+      }
+
+      return isUnmountHook(fields[key]);
+    });
     var updateHooks = keys.filter(function (key) {
+
+      if (isUpdateHook(fields[key])) {
+        console.log(' *** element ' + name + ': isUpdateHook ' + key);
+      }
+
       return isUpdateHook(fields[key]);
     });
     var constractorHooks = keys.filter(function (key) {
+
+      if (isConstractorHook(fields[key])) {
+        console.log(' *** element ' + name + ': isConstractorHook ' + key);
+      }
+
       return isConstractorHook(fields[key]);
     });
 
@@ -53,22 +81,33 @@ var ReactElement = (function () {
     var Type = React.createClass({
       displayName: "html:" + name,
       getInitialState: function getInitialState() {
-        var state = Object.assign({}, fields);
+
+        console.log(' --- getInitialState ' + name);
+
+        //var state = Object.assign({}, fields);
+        var state = {};
+        keys.forEach(function(key){ state[key] = fields[key]; });
         constractorHooks.forEach(function (key) {
+
+          console.log('getInitialState ' + name + ': key ' + key);
+
           state[key] = fields[key].construct();
         });
         return state;
       },
       // Reflect attributes not recognized by react.
       componentDidMount: function componentDidMount() {
+
+        console.log(' --- componentDidMount ' + name);
+
         var node = this.getDOMNode();
         var present = this.props;
         var hooks = this.state;
 
         if (mountHooks.length > 0) {
-          mountHooks.forEach(function (name) {
-            var hook = hooks[name];
-            var value = present[name];
+          mountHooks.forEach(function (key) {
+            var hook = hooks[key];
+            var value = present[key];
             hook.mount(node, value);
           });
 
@@ -79,24 +118,53 @@ var ReactElement = (function () {
           node.parentNode.replaceChild(node, node);
         }
 
-        mountedHooks.forEach(function (name) {
-          var hook = hooks[name];
-          hook.mounted(node, present[name]);
+        mountedHooks.forEach(function (key) {
+          var hook = hooks[key];
+
+          console.log('componentDidMount ' + name + ': key ' + key);
+
+          hook.mounted(node, present[key]);
+        });
+      },
+      componentWillUnmount: function componentWillUnmount() {
+
+        console.log(' --- componentWillUnmount ' + name);
+
+        var node = this.getDOMNode();
+        var hooks = this.state;
+
+        unmountHooks.forEach(function (key) {
+          var hook = hooks[key];
+
+          console.log('componentWillUnmount ' + name + ': key ' + key);
+
+          hook.unmount(node);
         });
       },
       // Reflect attribute changes not recognized by react.
       componentDidUpdate: function componentDidUpdate(past) {
+
+        console.log(' --- componentDidUpdate ' + name);
+
         var node = this.getDOMNode();
         var present = this.props;
         var hooks = this.state;
 
-        updateHooks.forEach(function (name) {
-          var hook = hooks[name];
-          hook.write(node, present[name], past[name]);
+        updateHooks.forEach(function (key) {
+          var hook = hooks[key];
+
+          console.log('componentDidUpdate ' + name + ':     key ' + key);
+          console.log('componentDidUpdate ' + name + ':    past ' + past[key]);
+          console.log('componentDidUpdate ' + name + ': present ' + present[key]);
+
+          hook.write(node, present[key], past[key]);
         });
       },
       // Render renders wrapped HTML node.
       render: function render() {
+
+        console.log(' --- render ' + name);
+
         return Node(this.props, this.props.children);
       }
     });
@@ -252,10 +320,22 @@ var ReactElement = (function () {
     },
     capture: false,
     mounted: function mounted(node, handler) {
+
+      console.log(' +++ added event listener for ' + this.type + ': ' + handler + '(node: ' + node.tagName + ')');
+
       this.handler = handler;
       node.addEventListener(this.type, this, this.capture);
     },
+    unmount: function unmount(node) {
+
+      console.log(' +++ removed event listener for ' + this.type);
+
+      node.removeEventListener(this.type, this, this.capture);
+    },
     write: function write(node, present) {
+
+      console.log(' +++ assigned event listener for ' + this.type + ': ' + present);
+
       this.handler = present;
     },
     handleEvent: function handleEvent(event) {
