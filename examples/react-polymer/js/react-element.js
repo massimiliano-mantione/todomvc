@@ -168,7 +168,8 @@ var ReactElement = (function () {
         return Node(this.props, this.props.children);
       }
     });
-    return React.createFactory(Type);
+    //return React.createFactory(Type);
+    return Type;
   };
   result.isPreMountHook = isPreMountHook;
   result.isPostMountHook = isPostMountHook;

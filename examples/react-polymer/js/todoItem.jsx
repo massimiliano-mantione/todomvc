@@ -81,11 +81,10 @@ var app = app || {};
 				})}>
 					<div className="view">
 				  <paper-shadow z='3'>
-            {PaperCheckbox({
-							checked: this.props.todo.completed,
-							'on-change': this.props.onToggle,
-							}
-						)}
+            <PaperCheckbox
+							checked={this.props.todo.completed}
+							on-change={this.props.onToggle}
+						/>
 						<label onDoubleClick={this.handleEdit}>
 							{this.props.todo.title}
 						</label>

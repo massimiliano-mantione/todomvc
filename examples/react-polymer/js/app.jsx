@@ -129,11 +129,11 @@ var app = app || {};
 			if (todos.length) {
 				main = (
 					<section id="main">
-						{PaperCheckbox({
-							id:"toggle-all",
-							'on-change':this.toggleAll,
-							checked:(activeTodoCount === 0)
-						})}
+						<PaperCheckbox
+							id="toggle-all"
+							on-change={this.toggleAll}
+							checked={activeTodoCount === 0}
+						/>
 						<ul id="todo-list">
 							{todoItems}
 						</ul>
