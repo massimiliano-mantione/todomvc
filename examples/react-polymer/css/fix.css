@@ -1,0 +1,79 @@
+paper-button {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: none;
+	font-size: 100%;
+	vertical-align: baseline;
+	font-family: inherit;
+	font-weight: inherit;
+	color: inherit;
+	-webkit-appearance: none;
+	appearance: none;
+	-webkit-font-smoothing: antialiased;
+	-moz-font-smoothing: antialiased;
+	font-smoothing: antialiased;
+}
+
+#todo-list li .destroy {
+	display: none;
+	position: absolute;
+	top: 0;
+	right: 10px;
+	bottom: 0;
+	width: 40px;
+	height: 40px;
+	margin: auto 0;
+	font-size: 30px;
+	color: #cc9a9a;
+	margin-bottom: 11px;
+	transition: color 0.2s ease-out;
+}
+
+#todo-list li .destroy:hover {
+	color: #af5b5e;
+}
+
+#todo-list li .destroy:after {
+	content: '';
+}
+
+#todo-list li:hover .destroy {
+	display: block;
+}
+
+#todo-list li .edit {
+	display: none;
+}
+
+#todo-list li.editing:last-child {
+	margin-bottom: -1px;
+}
+
+#toggle-all {
+	position: absolute;
+	top: -75px;
+	left: 0px;
+	width: 60px;
+	height: 34px;
+	text-align: center;
+	border: none; /* Mobile Safari */
+}
+
+#toggle-all:before {
+	content: '';
+	font-size: 22px;
+	color: #e6e6e6;
+	padding: 10px 27px 10px 27px;
+}
+
+#toggle-all {
+	-webkit-transform: rotate(0deg);
+	transform: rotate(0deg);
+	-webkit-appearance: button-arrow-down;
+	appearance: button-arrow-down;
+}
+
+#toggle-all-icon {
+  z-index: 1
+}

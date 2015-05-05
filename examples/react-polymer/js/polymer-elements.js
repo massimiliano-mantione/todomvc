@@ -5,12 +5,9 @@ var PaperCheckbox = ReactElement('paper-checkbox', {
 var PaperButton = ReactElement('paper-button', {
   'on-click': ReactElement.Event('click')
 });
-//var PaperInput = ReactElement('paper-input', {
-  //'onchange': ReactElement.Event('change'),
-  //'onChange': ReactElement.Event('change'),
-  //'change': ReactElement.Event('change'),
-  //'on-change': ReactElement.Event('change'),
-  //'on-Change': ReactElement.Event('change'),
-  //'onKeyDown': ReactElement.Event('keyDown'),
-//});
+var PaperInput = ReactElement('paper-input', {
+  'on-change': ReactElement.Event('change'),
+  'on-blur': ReactElement.Event('blur'),
+  'on-key-down': ReactElement.Event('keydown')
+});
 var PaperShadow = ReactElement('paper-shadow', {});

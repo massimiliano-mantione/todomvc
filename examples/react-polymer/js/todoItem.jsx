@@ -69,7 +69,7 @@ var app = app || {};
 			if (!prevProps.editing && this.props.editing) {
 				var node = this.refs.editField.getDOMNode();
 				node.focus();
-				node.setSelectionRange(node.value.length, node.value.length);
+				//node.setSelectionRange(node.value.length, node.value.length);
 			}
 		},
 
@@ -80,26 +80,25 @@ var app = app || {};
 					editing: this.props.editing
 				})}>
 					<div className="view">
-				  <paper-shadow z='3'>
-            <PaperCheckbox
+	          <PaperCheckbox
+							className="toggle"
 							checked={this.props.todo.completed}
 							on-change={this.props.onToggle}
 						/>
 						<label onDoubleClick={this.handleEdit}>
 							{this.props.todo.title}
 						</label>
-						<paper-button onClick={this.props.onDestroy}>
+						<paper-button className="destroy" onClick={this.props.onDestroy}>
               <core-icon icon="clear"/>
             </paper-button>
-					</paper-shadow>
 					</div>
-					<input
+					<PaperInput
 						ref="editField"
 						className="edit"
 						value={this.state.editText}
-						onBlur={this.handleSubmit}
-						onChange={this.handleChange}
-						onKeyDown={this.handleKeyDown}
+						on-blur={this.handleSubmit}
+						on-change={this.handleChange}
+						on-key-down={this.handleKeyDown}
 					/>
 				</li>
 			);

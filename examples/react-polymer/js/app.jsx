@@ -133,7 +133,9 @@ var app = app || {};
 							id="toggle-all"
 							on-change={this.toggleAll}
 							checked={activeTodoCount === 0}
-						/>
+						>
+						  <core-icon id="toggle-all-icon" icon="clear"/>
+						</PaperCheckbox>
 						<ul id="todo-list">
 							{todoItems}
 						</ul>
